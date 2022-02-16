@@ -27,7 +27,7 @@ jobs:
         dotnet publish -c Release -o ../afkparser -r win-x64 --self-contained true /p:UseAppHost=true
       
     - uses: elgohr/Github-Release-Action@master
-    - name: Publish
+      name: Publish
       env:
         GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
       with:
