@@ -24,11 +24,16 @@ jobs:
     - name: Build
       run: |
         dotnet build --configuration Release --no-restore
-        dotnet publish -c Release -o ../afkparser -r win-x64 --self-contained true /p:UseAppHost=true
+        dotnet publish -c Release -o ../afkparser -r win-x64 --self-contained false /p:UseAppHost=true
       
-    - uses: elgohr/Github-Release-Action@master
-      name: Publish
-      env:
-        GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+    - uses: thedoctor0/zip-release@master
       with:
-        args: New CD Build
+        type: 'zip'
+        filename: 'afkparser.zip'
+        path: ./afkparser
+      
+    - name: Publish
+      uses: ncipollo/release-action@v1
+      with:
+        artifacts: "afkparser.zip"
+        token: ${{ secrets.GITHUB_TOKEN }}
