@@ -33,7 +33,7 @@ jobs:
       with:
         type: 'zip'
         filename: 'afkparser.zip'
-        path: bin\Release\net6.0\win-x64
+        directory: bin\Release\net6.0\win-x64
       
     - name: Publish
       uses: ncipollo/release-action@v1
