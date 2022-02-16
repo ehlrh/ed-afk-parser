@@ -36,7 +36,7 @@ jobs:
         path: bin\Release\net6.0\win-x64
       
     - name: Generate and push tag
-      uses: ChloePlanet/github-tag-action@master
+      uses: anothrNick/github-tag-action@1.36.0
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
