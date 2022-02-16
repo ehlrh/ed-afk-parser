@@ -37,3 +37,4 @@ jobs:
       with:
         artifacts: "afkparser.zip"
         token: ${{ secrets.GITHUB_TOKEN }}
+        tag: ${{ env.GITHUB_SHA }}
