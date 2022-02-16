@@ -5,14 +5,16 @@ on:
     branches: [ main ]
 
 env:
-  DOTNET_VERSION: '6.0.*' # The .NET SDK version to use
+  DOTNET_VERSION: '6.0.*'
 
 jobs:
   publish:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout
+      uses: actions/checkout@v2
+      
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
@@ -26,15 +28,19 @@ jobs:
         dotnet build --configuration Release --no-restore
         dotnet publish -c Release -o ../afkparser -r win-x64 --self-contained false /p:UseAppHost=true
       
-    - uses: thedoctor0/zip-release@master
+    - name: Package release
+      uses: thedoctor0/zip-release@master
       with:
         type: 'zip'
         filename: 'afkparser.zip'
-        path: .
+        path: bin\Release\net6.0\win-x64
+      
+    - name: Generate tag
+      run: echo "NOW=$(date +'%Y.%m.%d')" >> $GITHUB_ENV
       
     - name: Publish
       uses: ncipollo/release-action@v1
       with:
         artifacts: "afkparser.zip"
         token: ${{ secrets.GITHUB_TOKEN }}
-        tag: "nightly"
+        tag: "${{ env.NOW }}"
