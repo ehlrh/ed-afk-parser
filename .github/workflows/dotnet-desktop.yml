@@ -35,12 +35,13 @@ jobs:
         filename: 'afkparser.zip'
         path: bin\Release\net6.0\win-x64
       
-    - name: Generate tag
-      run: echo "NOW=$(date +'%Y.%m.%d')" >> $GITHUB_ENV
-      
+    - name: Generate and push tag
+      uses: ChloePlanet/github-tag-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
     - name: Publish
       uses: ncipollo/release-action@v1
       with:
         artifacts: "afkparser.zip"
         token: ${{ secrets.GITHUB_TOKEN }}
-        tag: "${{ env.NOW }}"
