@@ -30,7 +30,7 @@ jobs:
       with:
         type: 'zip'
         filename: 'afkparser.zip'
-        path: .\afkparser
+        path: .
       
     - name: Publish
       uses: ncipollo/release-action@v1
