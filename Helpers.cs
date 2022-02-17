@@ -1,3 +1,5 @@
+namespace AfkParse;
+
 using System.Text.RegularExpressions;
 
 public class Helpers
@@ -16,6 +18,8 @@ public class Helpers
         public static EventType BOUNTY_AWARDED { get { return new EventType("Bounty"); } }
         public static EventType SCAN { get { return new EventType("Scanned"); } }
         public static EventType FSS_SIGNAL { get { return new EventType("FSSSignalDiscovered"); } }
+        public static EventType SHUTDOWN { get { return new EventType("Shutdown"); } }
+        public static EventType JUMP_OUT { get { return new EventType("StartJump"); } }
     }
 
     public static DateTime timestamp(string line)

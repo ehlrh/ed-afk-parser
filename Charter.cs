@@ -1,3 +1,7 @@
+namespace AfkParse;
+
+using AfkParse.Model;
+
 public class Charter
 {
     public static void drawChart(Session sesh)

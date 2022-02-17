@@ -1,4 +1,7 @@
-﻿var logFileList = Directory.EnumerateFiles(Environment.ExpandEnvironmentVariables(@"%UserProfile%\Saved Games\Frontier Developments\Elite Dangerous\"))
+﻿using AfkParse.Model;
+using AfkParse;
+
+var logFileList = Directory.EnumerateFiles(Environment.ExpandEnvironmentVariables(@"%UserProfile%\Saved Games\Frontier Developments\Elite Dangerous\"))
     .Where(x => x.Contains("Journal") && x.EndsWith(".log"));
 
 using (StreamWriter writer = new StreamWriter("afk-bounty-rollup.txt"))
@@ -39,7 +42,7 @@ using (StreamWriter writer = new StreamWriter("afk-bounty-rollup.txt"))
                         {
                             sesh.Deaths++;
                         }
-                        if (reader.Peek() == -1)
+                        if (Helpers.isEventType(line, Helpers.EventType.SHUTDOWN) || reader.Peek() == -1)
                         {
                             sesh.Disconnects++;
                         }
@@ -59,7 +62,7 @@ using (StreamWriter writer = new StreamWriter("afk-bounty-rollup.txt"))
                         }
                         if (Helpers.isEventType(line, Helpers.EventType.BOUNTY_AWARDED))
                         {
-                            sesh.Bounties++;
+                            sesh.BountyCount++;
                             sesh.TotalBounties += Helpers.getIntValue(line, "TotalReward");
 
                             var shipname = Helpers.getStringValue(line, "Target");
@@ -73,14 +76,16 @@ using (StreamWriter writer = new StreamWriter("afk-bounty-rollup.txt"))
                             }
                         }
                         if (Helpers.isEventType(line, Helpers.EventType.END_INSTANCE)
+                        || Helpers.isEventType(line, Helpers.EventType.JUMP_OUT)
                         || Helpers.isEventType(line, Helpers.EventType.SHIP_DEATH)
+                        || Helpers.isEventType(line, Helpers.EventType.SHUTDOWN)
                         || reader.Peek() == -1)
                         {
-                            if (sesh.CargoScans > 10 && sesh.PirateAttacks > 10 && sesh.Bounties > 10 && sesh.Bounties < sesh.PirateAttacks * 1.5)
+                            if (sesh.CargoScans > 10 && sesh.PirateAttacks > 10 && sesh.BountyCount > 10 && sesh.BountyCount < sesh.PirateAttacks * 1.5)
                             {
                                 sesh.ExitTime = Helpers.timestamp(line);
 
-                                grandBounties += sesh.Bounties;
+                                grandBounties += sesh.BountyCount;
                                 grandTotalBounties += sesh.TotalBounties;
                                 if (sesh.ScaredOff > 0)
                                 {

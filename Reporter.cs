@@ -1,3 +1,7 @@
+namespace AfkParse;
+
+using AfkParse.Model;
+
 public class Reporter
 {
     public static void writeReport(Session sesh, StreamWriter writer, string file)
@@ -15,12 +19,12 @@ public class Reporter
         writer.WriteLine($"Scans per hour: {sesh.CargoScans / hoursInInstance:n1}");
         writer.WriteLine($"Attacks per hour: {sesh.PirateAttacks / hoursInInstance:n1}");
         writer.WriteLine($"Attacks per scan: {(float)sesh.PirateAttacks / sesh.CargoScans:n2}");
-        writer.WriteLine($"Number of bounties awarded: {sesh.Bounties:n0}");
+        writer.WriteLine($"Number of bounties awarded: {sesh.BountyCount:n0}");
         writer.WriteLine($"Total value of bounties: {sesh.TotalBounties:n0}");
         writer.WriteLine($"Bounty per scan: {sesh.TotalBounties / sesh.CargoScans:n0}");
         writer.WriteLine($"Bounty per attack: {sesh.TotalBounties / sesh.PirateAttacks:n0}");
         writer.WriteLine($"Bounty per hour: {sesh.TotalBounties / hoursInInstance:n0}");
-        writer.WriteLine($"Average bounty value: {sesh.TotalBounties / sesh.Bounties:n0}");
+        writer.WriteLine($"Average bounty value: {sesh.TotalBounties / sesh.BountyCount:n0}");
         writer.WriteLine($"Destroyed ship counts:");
 
         foreach (var ship in sesh.ShipCount)
