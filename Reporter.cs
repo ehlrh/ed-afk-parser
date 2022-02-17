@@ -9,8 +9,8 @@ public class Reporter
         var hoursInInstance = (sesh.ExitTime - sesh.EntryTime).TotalHours;
         writer.WriteLine($"AFK-like bounty hunting found in {file}");
         writer.WriteLine($"Site: {sesh.SiteName}");
-        writer.WriteLine($"Entry time (local): {sesh.EntryTime}");
-        writer.WriteLine($"Exit time (local): {sesh.ExitTime}");
+        writer.WriteLine($"Entry time (UTC): {sesh.EntryTime.ToUniversalTime()}");
+        writer.WriteLine($"Exit time (UTC): {sesh.ExitTime.ToUniversalTime()}");
         writer.WriteLine($"Exit via death: {sesh.Deaths}");
         writer.WriteLine($"Exit via disconnect: {sesh.Disconnects}");
         writer.WriteLine($"Number of pirate scans: {sesh.CargoScans:n0}");
