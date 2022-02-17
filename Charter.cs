@@ -4,13 +4,15 @@ using AfkParse.Model;
 
 public class Charter
 {
+    private static ZedGraph.GraphPane pane = new ZedGraph.GraphPane();
+
     public static void drawChart(Session sesh)
     {
-        var pane = new ZedGraph.GraphPane();
         pane.Title.Text = $"{sesh.SiteName} system, {sesh.EntryTime.ToUniversalTime()} (UTC) for {sesh.ExitTime.Subtract(sesh.EntryTime).TotalMinutes:n1} mins";
         pane.XAxis.Title.Text = "minutes";
         pane.YAxis.Title.Text = "number";
 
+        pane.CurveList.Clear();
         pane.AddCurve(label: "Pirate Scans",
             sesh.ScanTimes.Keys.Select<DateTime, double>((x, y) => x.Subtract(sesh.EntryTime).TotalMinutes).ToArray(),
             sesh.ScanTimes.Values.Select(x => (double)x).ToArray(),
