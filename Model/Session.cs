@@ -17,6 +17,7 @@ public class Session
         BountyCount = 0;
         TotalBounties = 0;
         BountyTargets = new List<Ship>();
+        FighterDeaths = new List<DateTime>();
         ShipCount = new Dictionary<string, int>();
         AttackTimes = new ConcurrentDictionary<DateTime, int>();
         ScanTimes = new ConcurrentDictionary<DateTime, int>();
@@ -33,6 +34,7 @@ public class Session
     public int BountyCount { get; set; }
     public int TotalBounties { get; set; }
     public List<Ship> BountyTargets { get; private set; }
+    public List<DateTime> FighterDeaths { get; private set; }
     public Dictionary<string, int> ShipCount { get; private set; }
     public ConcurrentDictionary<DateTime, int> AttackTimes { get; private set; }
     public ConcurrentDictionary<DateTime, int> ScanTimes { get; private set; }

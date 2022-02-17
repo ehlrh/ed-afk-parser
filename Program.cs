@@ -22,6 +22,11 @@ using (StreamWriter writer = new StreamWriter("afk-bounty-rollup.txt"))
                 var sesh = new Session();
                 string line;
 
+                if (reader.Peek() == -1)
+                {
+                    continue;
+                }
+
                 while (!String.IsNullOrEmpty(line = reader.ReadLine()))
                 {
                     if (!inRing)
@@ -41,6 +46,10 @@ using (StreamWriter writer = new StreamWriter("afk-bounty-rollup.txt"))
                         if (Helpers.isEventType(line, Helpers.EventType.SHIP_DEATH))
                         {
                             sesh.Deaths++;
+                        }
+                        if (Helpers.isEventType(line, Helpers.EventType.FIGHTER_DEATH))
+                        {
+                            sesh.FighterDeaths.Add(Helpers.timestamp(line));
                         }
                         if (Helpers.isEventType(line, Helpers.EventType.SHUTDOWN) || reader.Peek() == -1)
                         {

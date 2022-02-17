@@ -20,6 +20,7 @@ public class Helpers
         public static EventType FSS_SIGNAL { get { return new EventType("FSSSignalDiscovered"); } }
         public static EventType SHUTDOWN { get { return new EventType("Shutdown"); } }
         public static EventType JUMP_OUT { get { return new EventType("StartJump"); } }
+        public static EventType FIGHTER_DEATH { get { return new EventType("FighterDestroyed"); } }
     }
 
     public static DateTime timestamp(string line)
