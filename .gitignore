@@ -453,5 +453,6 @@ $RECYCLE.BIN/
 !.vscode/launch.json
 !.vscode/extensions.json
 
-# Output file
+# Output files
 afk-bounty-rollup.txt
+*.png

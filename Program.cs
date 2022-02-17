@@ -18,7 +18,7 @@ using (StreamWriter writer = new StreamWriter("afk-bounty-rollup.txt"))
                 bool inRing = false;
                 var sesh = new Session();
                 string line;
-                
+
                 while (!String.IsNullOrEmpty(line = reader.ReadLine()))
                 {
                     if (!inRing)
@@ -46,11 +46,12 @@ using (StreamWriter writer = new StreamWriter("afk-bounty-rollup.txt"))
                         if (line.Contains("$Pirate_OnStartScanCargo"))
                         {
                             sesh.CargoScans++;
+                            sesh.ScanTimes.AddOrUpdate(Helpers.timestamp(line), sesh.CargoScans, (_, _) => sesh.CargoScans);
                         }
                         if (line.Contains("$Pirate_OnDeclarePiracyAttack"))
                         {
                             sesh.PirateAttacks++;
-
+                            sesh.AttackTimes.AddOrUpdate(Helpers.timestamp(line), sesh.PirateAttacks, (_, _) => sesh.PirateAttacks);
                         }
                         if (line.Contains("$Pirate_ThreatTooHigh"))
                         {
@@ -77,7 +78,7 @@ using (StreamWriter writer = new StreamWriter("afk-bounty-rollup.txt"))
                         {
                             if (sesh.CargoScans > 10 && sesh.PirateAttacks > 10 && sesh.Bounties > 10 && sesh.Bounties < sesh.PirateAttacks * 1.5)
                             {
-                                var exitTime = Helpers.timestamp(line);
+                                sesh.ExitTime = Helpers.timestamp(line);
 
                                 grandBounties += sesh.Bounties;
                                 grandTotalBounties += sesh.TotalBounties;
@@ -87,31 +88,8 @@ using (StreamWriter writer = new StreamWriter("afk-bounty-rollup.txt"))
                                     grandTotalScared += sesh.ScaredOff;
                                 }
 
-                                var hoursInInstance = (exitTime - sesh.EntryTime).TotalHours;
-                                writer.WriteLine($"AFK-like bounty hunting found in {file}");
-                                writer.WriteLine($"Site: {sesh.SiteName}");
-                                writer.WriteLine($"Entry time (local): {sesh.EntryTime}");
-                                writer.WriteLine($"Exit time (local): {exitTime}");
-                                writer.WriteLine($"Exit via death: {sesh.Deaths}");
-                                writer.WriteLine($"Exit via disconnect: {sesh.Disconnects}");
-                                writer.WriteLine($"Number of pirate scans: {sesh.CargoScans:n0}");
-                                writer.WriteLine($"Number of pirate attacks: {sesh.PirateAttacks:n0}");
-                                writer.WriteLine($"Number of pirates scared off: {sesh.ScaredOff:n0} ({100.0 * sesh.ScaredOff / sesh.CargoScans:n}% of scans)");
-                                writer.WriteLine($"Scans per hour: {sesh.CargoScans / hoursInInstance:n1}");
-                                writer.WriteLine($"Attacks per hour: {sesh.PirateAttacks / hoursInInstance:n1}");
-                                writer.WriteLine($"Attacks per scan: {(float)sesh.PirateAttacks / sesh.CargoScans:n2}");
-                                writer.WriteLine($"Number of bounties awarded: {sesh.Bounties:n0}");
-                                writer.WriteLine($"Total value of bounties: {sesh.TotalBounties:n0}");
-                                writer.WriteLine($"Bounty per scan: {sesh.TotalBounties / sesh.CargoScans:n0}");
-                                writer.WriteLine($"Bounty per attack: {sesh.TotalBounties / sesh.PirateAttacks:n0}");
-                                writer.WriteLine($"Bounty per hour: {sesh.TotalBounties / hoursInInstance:n0}");
-                                writer.WriteLine($"Average bounty value: {sesh.TotalBounties / sesh.Bounties:n0}");
-                                writer.WriteLine($"Destroyed ship counts:");
-                                foreach (var ship in sesh.ShipCount)
-                                {
-                                    writer.WriteLine($"{ship.Key}: {ship.Value}");
-                                }
-                                writer.WriteLine("");
+                                Reporter.writeReport(sesh, writer, file);
+                                Charter.drawChart(sesh);
                             }
 
                             inRing = false;
