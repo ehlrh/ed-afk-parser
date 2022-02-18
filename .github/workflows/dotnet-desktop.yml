@@ -39,4 +39,4 @@ jobs:
       with:
         artifacts: 'afkparser.zip'
         token: ${{ secrets.GITHUB_TOKEN }}
-        tag: v0.3.2
+        tag: v0.3.3
