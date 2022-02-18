@@ -25,14 +25,16 @@ public static class Reporter
         writer.WriteLine($"Bounty per attack: {sesh.TotalBounties / sesh.PirateAttacks:n0}");
         writer.WriteLine($"Bounty per hour: {sesh.TotalBounties / hoursInInstance:n0}");
         writer.WriteLine($"Average bounty value: {sesh.TotalBounties / sesh.BountyCount:n0}");
+        writer.WriteLine($"Number of fighters lost: {sesh.FighterDeaths}");
         writer.WriteLine($"Destroyed ship counts:");
 
         foreach (var ship in sesh.ShipCount)
         {
             writer.WriteLine($"{ship.Key}: {ship.Value}");
         }
-        if(sesh.BountyCount > sesh.PirateAttacks) {
-            writer.WriteLine($"* Probable sidewinder wave instance. {(float)sesh.BountyCount/sesh.PirateAttacks} bounties collected per pirate attack. *");
+        if (sesh.BountyCount > sesh.PirateAttacks)
+        {
+            writer.WriteLine($"* Probable sidewinder wave instance. {(float)sesh.BountyCount / sesh.PirateAttacks} bounties collected per pirate attack. *");
         }
         writer.WriteLine("");
     }
