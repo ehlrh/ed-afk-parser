@@ -2,7 +2,7 @@ namespace AfkParse;
 
 using AfkParse.Model;
 
-public class Charter
+public static class Charter
 {
     private static ZedGraph.GraphPane pane = new ZedGraph.GraphPane();
 

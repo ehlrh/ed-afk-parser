@@ -2,7 +2,7 @@ namespace AfkParse;
 
 using AfkParse.Model;
 
-public class Reporter
+public static class Reporter
 {
     public static void writeReport(Session sesh, StreamWriter writer, string file)
     {
