@@ -27,6 +27,6 @@ public static class Charter
         .Line.IsVisible = false;
 
         pane.AxisChange();
-        pane.GetImage(1920, 1080, 250, true).Save($"{sesh.SiteName}-{(sesh.EntryTime.ToFileTime()) / 100000000}.png");
+        pane.GetImage(1920, 1080, 250, true).Save($"output/{sesh.SiteName}-{(sesh.EntryTime.ToFileTime()) / 100000000}.png");
     }
 }

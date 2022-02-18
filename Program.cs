@@ -1,10 +1,15 @@
 ﻿using AfkParse.Model;
 using AfkParse;
 
+if (!Directory.Exists("output"))
+{
+    Directory.CreateDirectory("output");
+}
+
 var logFileList = Directory.EnumerateFiles(Environment.ExpandEnvironmentVariables(@"%UserProfile%\Saved Games\Frontier Developments\Elite Dangerous\"))
     .Where(x => x.Contains("Journal") && x.EndsWith(".log"));
 
-using (StreamWriter writer = new StreamWriter("afk-bounty-rollup.txt"))
+using (StreamWriter writer = new StreamWriter("output/afk-bounty-rollup.txt"))
 {
     long grandTotalBounties = 0;
     long grandBounties = 0;
