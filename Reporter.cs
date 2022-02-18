@@ -31,6 +31,9 @@ public static class Reporter
         {
             writer.WriteLine($"{ship.Key}: {ship.Value}");
         }
+        if(sesh.BountyCount > sesh.PirateAttacks) {
+            writer.WriteLine($"* Probable sidewinder wave instance. {(float)sesh.BountyCount/sesh.PirateAttacks} bounties collected per pirate attack. *");
+        }
         writer.WriteLine("");
     }
 }
